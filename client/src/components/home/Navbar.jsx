@@ -29,13 +29,13 @@ const Navbar = () => {
                 {/* Desktop Buttons */}
                 <div className="hidden md:flex items-center gap-3">
                     <Link
-                        to="/app?state=register"
+                       to="/signup"
                         className="px-5 py-2 bg-indigo-500 hover:bg-indigo-700 text-white rounded-full text-sm transition-colors"
                     >
                         Get Started
                     </Link>
                     <Link
-                        to="/app?state=login"
+                        to="/login"
                         className="px-5 py-2 border rounded-full text-sm hover:bg-gray-100 transition-colors"
                     >
                         Login

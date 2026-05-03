@@ -19,7 +19,11 @@ const App = () => {
         </Route>
 
         <Route path='view/:resumeId' element={<Preview />} />
-        <Route path='/login' element={<Login />} />
+
+    
+  {/* Auth */}
+  <Route path="/login" element={<Login />} />
+  <Route path="/signup" element={<Login />} />
 
         <Route path="*" element={<NotFound404 />} />
       </Routes>
