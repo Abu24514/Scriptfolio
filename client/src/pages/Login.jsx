@@ -53,7 +53,7 @@ const Login = () => {
               type="text"
               name="name"
               placeholder="Name"
-              className="w-full outline-none text-sm"
+              className="w-full outline-none text-sm border-none focus:ring-0"
               value={formData.name}
               onChange={handleChange}
               required
@@ -68,7 +68,7 @@ const Login = () => {
             type="email"
             name="email"
             placeholder="Email id"
-            className="w-full outline-none text-sm"
+            className="w-full outline-none text-sm border-none focus:ring-0"
             value={formData.email}
             onChange={handleChange}
             required
@@ -82,7 +82,7 @@ const Login = () => {
             type="password"
             name="password"
             placeholder="Password"
-            className="w-full outline-none text-sm"
+            className="w-full outline-none text-sm border-none focus:ring-0"
             value={formData.password}
             onChange={handleChange}
             required
