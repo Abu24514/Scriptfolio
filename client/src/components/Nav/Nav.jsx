@@ -9,7 +9,7 @@ const Nav = () => {
     }
     return (
         <div className='shadow bg-white'>
-            <nav className='flex items-center justify-between max-w-7xl mx-auto px-4 py3.5'>
+            <nav className='flex items-center justify-between max-w-7xl mx-auto px-4 py-3.5'>
                  <Link to="/" className="flex items-center gap-2">
                 <img className="h-18 w-auto" src="src/assets/scriptfolio-logo.svg" alt="logo" />
                 <span className="text-lg sm:text-xl font-semibold hover:text-indigo-600">

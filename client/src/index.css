@@ -4,28 +4,34 @@
 /* Tailwind */
 @import "tailwindcss";
 
-/* Theme variables */
-@theme {
+/* CSS Variables */
+:root {
   --font-heading: "Poppins", sans-serif;
   --font-body: "Inter", sans-serif;
 }
 
-/* Base styles */
-body {
-  font-family: var(--font-body);
-}
+/* Base Layer */
+@layer base {
 
-/* Headings */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-}
+  body {
+    font-family: var(--font-body);
+  }
 
-/* Buttons */
-button {
-  font-family: var(--font-heading);
-}
-@layer base{
-  button{
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+
+  button {
+    font-family: var(--font-heading);
     @apply cursor-pointer;
   }
+
+  input:not([type="checkbox"]) {
+    @apply outline-none border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+  }
+
+  textarea {
+    @apply outline-none border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+  }
+
 }
