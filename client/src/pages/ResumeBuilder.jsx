@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { dummyResumeData } from '../assets/assets'
 import { ArrowLeftIcon, Briefcase, ChevronLeft, ChevronRight, FileText, FolderIcon, GraduationCap, Sparkles, User } from 'lucide-react'
 import PersonalInfoForm from '../components/PersonalInfo/PersonalInfoForm';
+import ResumePreview from '../components/ResumePreview/ResumePreview';
 const ResumeBuilder = () => {
   const { resumeId } = useParams()
   const [resumeData, setResumeData] = useState({
@@ -80,22 +81,22 @@ const ResumeBuilder = () => {
                     </button>
                   )}
 
-                     <button
-                      onClick={() => setActiveSectionIndex((prevIndex) => Math.min(prevIndex + 1, 0))}
-                      className= {`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all ${activeSection === sections.length-1 && 'opacity-50'}`}
-                      disabled={activeSectionIndex === sections.length -1}
-                    >
-                       Next <ChevronRight className="size-4" /> 
-                    </button>
+                  <button
+                    onClick={() => setActiveSectionIndex((prevIndex) => Math.min(prevIndex + 1, 0))}
+                    className={`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all ${activeSection === sections.length - 1 && 'opacity-50'}`}
+                    disabled={activeSectionIndex === sections.length - 1}
+                  >
+                    Next <ChevronRight className="size-4" />
+                  </button>
                 </div>
               </div>
               {/* form content */}
               <div className='space-y-6'>
                 {activeSection.id === 'personal' && (
-                  <PersonalInfoForm data = {resumeData.personal_info}
-                  onChange={(data)=> setResumeData(prev =>({...prev , personal_info:data}))}
-                  removeBackground={removeBackground}
-                  setRemoveBackground={setRemoveBackground}
+                  <PersonalInfoForm data={resumeData.personal_info}
+                    onChange={(data) => setResumeData(prev => ({ ...prev, personal_info: data }))}
+                    removeBackground={removeBackground}
+                    setRemoveBackground={setRemoveBackground}
                   />
                 )}
               </div>
@@ -103,7 +104,14 @@ const ResumeBuilder = () => {
           </div>
 
           {/* Right Panel- Preview */}
-          <div></div>
+          <div className='lg:col-span-7 max-lg:mt-6'>
+            <div>
+              {/* button */}
+            </div>
+            {/* resume */}
+            <ResumePreview data = {resumeData} template={resumeData.template}
+            accentColor={resumeData.accent_color}/>
+          </div>
         </div>
       </div>
     </div>

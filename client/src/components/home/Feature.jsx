@@ -36,13 +36,13 @@ const features = [
 
 const Feature = () => {
   return (
-    <section className="py-20 px-6 md:px-16 lg:px-24 xl:px-40 bg-white">
+    <section id="features" className="py-20 px-6 md:px-16 lg:px-24 xl:px-40 bg-white">
 
       {/* Heading */}
       <Title title=' All-in-one resume builder' description='Powerful features and intelligent tools designed to help you create a professional, job-winning resume faster and with confidence.' />
 
       {/* Grid */}
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 cursor-pointer ">
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {features.map((item, index) => (
           <div
             key={index}
