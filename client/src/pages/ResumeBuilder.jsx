@@ -65,7 +65,7 @@ const ResumeBuilder = () => {
               {/* progress bar using activeSectionIndex */}
               <hr className="absolute top-0 left-0 right-0 border-2 border-gray-200" />
               <hr
-                className="absolute top-0 left-0 h-1 bg-linear-to-r from-indigo-500 to-indigo-600 border-none transition-all duration-2000"
+                className="absolute top-0 left-0 h-1 bg-linear-to-r from-purple-500 to-purple-600 border-none transition-all duration-2000"
                 style={{ width: `${activeSectionIndex * 100 / (sections.length - 1)}%` }}
               />
 
@@ -91,7 +91,7 @@ const ResumeBuilder = () => {
                   )}
 
                   <button
-                    onClick={() => setActiveSectionIndex((prevIndex) => Math.min(prevIndex + 1, 0))}
+                    onClick={() => setActiveSectionIndex((prevIndex) => Math.min(prevIndex + 1, sections.length - 1))} // fix it 0 to sections.length
                     className={`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all ${activeSection === sections.length - 1 && 'opacity-50'}`}
                     disabled={activeSectionIndex === sections.length - 1}
                   >
@@ -103,7 +103,7 @@ const ResumeBuilder = () => {
               <div className='space-y-6'>
                 {activeSection.id === 'personal' && (
                   <PersonalInfoForm data={resumeData.personal_info}
-                    onChange={(data) => setResumeData(prev => ({ ...prev, personal_info: data }))}
+                    onChange={(data) => setResumeData(prev => ({ ...prev, person_info: data }))} // fix it personal_info to person
                     removeBackground={removeBackground}
                     setRemoveBackground={setRemoveBackground}
                   />
