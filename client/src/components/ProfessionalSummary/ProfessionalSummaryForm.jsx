@@ -2,7 +2,7 @@ import {  Sparkles } from "lucide-react";
 
 const ProfessionalSummaryForm = ({data , onChange , setResumeDate}) => {
   return (
-    <div>
+    <div className="space-y-4">
         <div className="flex items-center justify-between">
             <div>
                 <h3 className="flex items-center gap-2 text-lg font-semibold">Professional Summary</h3>
