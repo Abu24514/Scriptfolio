@@ -103,11 +103,7 @@ const ResumeBuilder = () => {
               <div className='space-y-6'>
                 {activeSection.id === 'personal' && (
                   <PersonalInfoForm data={resumeData.personal_info}
-<<<<<<< Updated upstream
                     onChange={(data) => setResumeData(prev => ({ ...prev, personal_info: data }))}
-=======
-                    onChange={(data) => setResumeData(prev => ({ ...prev, personal_info: data }))} 
->>>>>>> Stashed changes
                     removeBackground={removeBackground}
                     setRemoveBackground={setRemoveBackground}
                   />
