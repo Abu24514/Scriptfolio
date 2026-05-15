@@ -6,6 +6,7 @@ import PersonalInfoForm from '../components/PersonalInfo/PersonalInfoForm';
 import ResumePreview from '../components/ResumePreview/ResumePreview';
 import TemplateSelector from '../components/TemplateSelector/TemplateSelector';
 import ColorPicker from '../components/ColorPicker/ColorPicker';
+import ProfessionalSummaryForm from '../components/ProfessionalSummary/ProfessionalSummaryForm';
 const ResumeBuilder = () => {
   const { resumeId } = useParams()
   const [resumeData, setResumeData] = useState({
@@ -109,6 +110,11 @@ const ResumeBuilder = () => {
                   />
                 )}
                 {/* summary */}
+                    {activeSection.id === 'summary' &&(
+                  <ProfessionalSummaryForm data ={resumeData.professional_summary}
+                  onChange={(data)=>setResumeData(prev =>({...prev , professional_summary :data}))}
+                  setResumeDate={setResumeData}/>
+                )}
               </div>
             </div>
           </div>
