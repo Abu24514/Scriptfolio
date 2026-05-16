@@ -98,7 +98,7 @@ const ExperienceForm = ({ data, onChange }) => {
                                     Enhance with AI
                                 </button>
                                </div>
-                               <textarea value={experience.description || ""} onChange={(e)=>updateExperience(index , "description " ,e.target.value)}
+                               <textarea value={experience.description || ""} onChange={(e)=>updateExperience(index , "description" ,e.target.value)}
                                 rows={4} className="w-full text-sm px-3 py-2 rounded-lg resize-none" placeholder="Describe your key responsibilities and achievement...."/>
                             </div>
                         </div>
