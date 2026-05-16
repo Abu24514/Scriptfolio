@@ -60,7 +60,7 @@ const ExperienceForm = ({ data, onChange }) => {
                                 </button>
                             </div>
 
-                            <div className="grid md:grid-col-2 gap-3" >
+                            <div className="grid md:grid-cols-2 gap-3" >
                                 <input
                                     value={experience.company || ""}
                                     onChange={(e) => updateExperience(index, "company", e.target.value)}
