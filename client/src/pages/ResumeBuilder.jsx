@@ -1,20 +1,31 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
-import { dummyResumeData } from '../assets/assets'
-import { ArrowLeftIcon, Briefcase, ChevronLeft, ChevronRight, FileText, FolderIcon, GraduationCap, Sparkles, User } from 'lucide-react'
-import PersonalInfoForm from '../components/PersonalInfo/PersonalInfoForm';
-import ResumePreview from '../components/ResumePreview/ResumePreview';
-import TemplateSelector from '../components/TemplateSelector/TemplateSelector';
-import ColorPicker from '../components/ColorPicker/ColorPicker';
-import ProfessionalSummaryForm from '../components/ProfessionalSummary/ProfessionalSummaryForm';
-import ExperienceForm from '../components/ExperienceForm/ExperienceForm';
-import EducationForm from '../components/EducationForm/EducationForm';
-import ProjectForm from '../components/ProjectForm/ProjectForm';
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { dummyResumeData } from "../assets/assets";
+import {
+  ArrowLeftIcon,
+  Briefcase,
+  ChevronLeft,
+  ChevronRight,
+  FileText,
+  FolderIcon,
+  GraduationCap,
+  Sparkles,
+  User,
+} from "lucide-react";
+import PersonalInfoForm from "../components/PersonalInfo/PersonalInfoForm";
+import ResumePreview from "../components/ResumePreview/ResumePreview";
+import TemplateSelector from "../components/TemplateSelector/TemplateSelector";
+import ColorPicker from "../components/ColorPicker/ColorPicker";
+import ProfessionalSummaryForm from "../components/ProfessionalSummary/ProfessionalSummaryForm";
+import ExperienceForm from "../components/ExperienceForm/ExperienceForm";
+import EducationForm from "../components/EducationForm/EducationForm";
+import ProjectForm from "../components/ProjectForm/ProjectForm";
+import SkillsForm from "../components/SkillsForm/SkillsForm";
 const ResumeBuilder = () => {
-  const { resumeId } = useParams()
+  const { resumeId } = useParams();
   const [resumeData, setResumeData] = useState({
-    _id: '',
-    title: '',
+    _id: "",
+    title: "",
     person_info: {},
     professional_summary: "",
     experience: [],
@@ -24,16 +35,16 @@ const ResumeBuilder = () => {
     template: "classic",
     accent_color: "#3B82F6",
     public: false,
-  })
+  });
 
   const loadExistingResume = async () => {
-    const resume = dummyResumeData.find(resume => resume._id === resumeId);
+    const resume = dummyResumeData.find((resume) => resume._id === resumeId);
 
     if (resume) {
-      setResumeData(resume)
-      document.title = resume.title
+      setResumeData(resume);
+      document.title = resume.title;
     }
-  }
+  };
   const [activeSectionIndex, setActiveSectionIndex] = useState(0);
   const [removeBackground, setRemoveBackground] = useState(false);
 
@@ -49,45 +60,64 @@ const ResumeBuilder = () => {
   const activeSection = sections[activeSectionIndex];
 
   useEffect(() => {
-    loadExistingResume()
-  }, [])
+    loadExistingResume();
+  }, []);
 
   return (
     <div>
-      <div className='max-w-7xl mx-auto px-4 py-6'>
-        <Link to={'/app'} className='inline-flex gap-2 items-center text-slate-500 hover:text-slate-700 transition-all'>
-          <ArrowLeftIcon className='size-4 ' />
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <Link
+          to={"/app"}
+          className="inline-flex gap-2 items-center text-slate-500 hover:text-slate-700 transition-all"
+        >
+          <ArrowLeftIcon className="size-4 " />
           Back to Dashboard
         </Link>
       </div>
 
-      <div className='max-w-7xl mx-auto px-4 py-5 ' >
-        <div className='grid lg:grid-cols-12 gap-8'>
+      <div className="max-w-7xl mx-auto px-4 py-5 ">
+        <div className="grid lg:grid-cols-12 gap-8">
           {/* Left Panel - Form */}
-          <div className='relative lg:col-span-5 rounded-lg overflow-hidden'>
-            <div className='bg-white rounded-lg shadow-sm border border-gray-200 p-6 pt-1'>
+          <div className="relative lg:col-span-5 rounded-lg overflow-hidden">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 pt-1">
               {/* progress bar using activeSectionIndex */}
               <hr className="absolute top-0 left-0 right-0 border-2 border-gray-200" />
               <hr
                 className="absolute top-0 left-0 h-1 bg-linear-to-r from-purple-500 to-purple-600 border-none transition-all duration-2000"
-                style={{ width: `${activeSectionIndex * 100 / (sections.length - 1)}%` }}
+                style={{
+                  width: `${(activeSectionIndex * 100) / (sections.length - 1)}%`,
+                }}
               />
 
               {/* Section Navigation */}
               <div className="flex justify-between items-center mb-6 border-b border-gray-300 py-1">
-
-                <div className='flex items-center gap-2'>
-                  <TemplateSelector selectedTemplate={resumeData.template}
-                    onChange={(template) => setResumeData(prev => ({ ...prev, template }))} />
+                <div className="flex items-center gap-2">
+                  <TemplateSelector
+                    selectedTemplate={resumeData.template}
+                    onChange={(template) =>
+                      setResumeData((prev) => ({ ...prev, template }))
+                    }
+                  />
                   {/* ColorPicker */}
-                  <ColorPicker selectedColor={resumeData.accent_color}
-                    onChange={(color) => setResumeData(prev => ({ ...prev, accent_color: color }))} />
+                  <ColorPicker
+                    selectedColor={resumeData.accent_color}
+                    onChange={(color) =>
+                      setResumeData((prev) => ({
+                        ...prev,
+                        accent_color: color,
+                      }))
+                    }
+                  />
                 </div>
-                <div className='flex items-center'>
+                <div className="flex items-center">
                   {activeSectionIndex !== 0 && (
                     <button
-                      onClick={() => setActiveSectionIndex((prevIndex) => Math.max(prevIndex - 1, 0))}
-                      className='flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all'
+                      onClick={() =>
+                        setActiveSectionIndex((prevIndex) =>
+                          Math.max(prevIndex - 1, 0),
+                        )
+                      }
+                      className="flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all"
                       disabled={activeSectionIndex === 0}
                     >
                       <ChevronLeft className="size-4" /> Previous
@@ -95,8 +125,12 @@ const ResumeBuilder = () => {
                   )}
 
                   <button
-                    onClick={() => setActiveSectionIndex((prevIndex) => Math.min(prevIndex + 1, sections.length - 1))}
-                    className={`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all ${activeSection === sections.length - 1 && 'opacity-50'}`}
+                    onClick={() =>
+                      setActiveSectionIndex((prevIndex) =>
+                        Math.min(prevIndex + 1, sections.length - 1),
+                      )
+                    }
+                    className={`flex items-center gap-1 p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all ${activeSection === sections.length - 1 && "opacity-50"}`}
                     disabled={activeSectionIndex === sections.length - 1}
                   >
                     Next <ChevronRight className="size-4" />
@@ -104,52 +138,88 @@ const ResumeBuilder = () => {
                 </div>
               </div>
               {/* form content */}
-              <div className='space-y-6'>
-                {activeSection.id === 'personal' && (
-                  <PersonalInfoForm data={resumeData.personal_info}
-                    onChange={(data) => setResumeData(prev => ({ ...prev, personal_info: data }))}
+              <div className="space-y-6">
+                {activeSection.id === "personal" && (
+                  <PersonalInfoForm
+                    data={resumeData.personal_info}
+                    onChange={(data) =>
+                      setResumeData((prev) => ({
+                        ...prev,
+                        personal_info: data,
+                      }))
+                    }
                     removeBackground={removeBackground}
                     setRemoveBackground={setRemoveBackground}
                   />
                 )}
                 {/* summary */}
-                {activeSection.id === 'summary' && (
-                  <ProfessionalSummaryForm data={resumeData.professional_summary}
-                    onChange={(data) => setResumeData(prev => ({ ...prev, professional_summary: data }))}
-                    setResumeDate={setResumeData} />
+                {activeSection.id === "summary" && (
+                  <ProfessionalSummaryForm
+                    data={resumeData.professional_summary}
+                    onChange={(data) =>
+                      setResumeData((prev) => ({
+                        ...prev,
+                        professional_summary: data,
+                      }))
+                    }
+                    setResumeDate={setResumeData}
+                  />
                 )}
                 {/* Experience */}
-                {activeSection.id === 'experience' && (
-                  <ExperienceForm data={resumeData.experience}
-                    onChange={(data) => setResumeData(prev => ({ ...prev, experience: data }))} />
+                {activeSection.id === "experience" && (
+                  <ExperienceForm
+                    data={resumeData.experience}
+                    onChange={(data) =>
+                      setResumeData((prev) => ({ ...prev, experience: data }))
+                    }
+                  />
                 )}
-                 {/* Education */}
-                {activeSection.id === 'education' && (
-                  <EducationForm data={resumeData.education}
-                    onChange={(data) => setResumeData(prev => ({ ...prev, education: data }))} />
+                {/* Education */}
+                {activeSection.id === "education" && (
+                  <EducationForm
+                    data={resumeData.education}
+                    onChange={(data) =>
+                      setResumeData((prev) => ({ ...prev, education: data }))
+                    }
+                  />
                 )}
-                   {/* Project */}
-                  {activeSection.id === 'projects' && (
-                  <ProjectForm data={resumeData.project}
-                    onChange={(data) => setResumeData(prev => ({ ...prev, project: data }))} />
+                {/* Project */}
+                {activeSection.id === "projects" && (
+                  <ProjectForm
+                    data={resumeData.project}
+                    onChange={(data) =>
+                      setResumeData((prev) => ({ ...prev, project: data }))
+                    }
+                  />
+                )}
+                {/* Skills*/}
+                {activeSection.id === "skills" && (
+                  <SkillsForm
+                    data={resumeData.skills}
+                    onChange={(data) =>
+                      setResumeData((prev) => ({ ...prev, skills: data }))
+                    }
+                  />
                 )}
               </div>
+              <button className="bg-linear-to-br from-purple-100 to-purple-200 ring-purple-300 text-purple-600 hover:ring-purple-400 transition-all rounded-md px-6 py-2 mt-6  text-sm hover:ring">Save Changes</button>
             </div>
           </div>
 
           {/* Right Panel- Preview */}
-          <div className='lg:col-span-7 max-lg:mt-6'>
-            <div>
-              {/* button */}
-            </div>
+          <div className="lg:col-span-7 max-lg:mt-6">
+            <div>{/* button */}</div>
             {/* resume */}
-            <ResumePreview data={resumeData} template={resumeData.template}
-              accentColor={resumeData.accent_color} />
+            <ResumePreview
+              data={resumeData}
+              template={resumeData.template}
+              accentColor={resumeData.accent_color}
+            />
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ResumeBuilder
+export default ResumeBuilder;
