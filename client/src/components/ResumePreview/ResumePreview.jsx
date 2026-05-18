@@ -19,10 +19,12 @@ const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
   };
 
   return (
-    <div className="w-full bg-gray-100">
+    <div className="w-full bg-gray-100 text-black">
       <div
+        id="resume-preview"
         className={
-          "border border-gray-200 print:shadow-none print:border-none" + classes
+          "border border-gray-200 bg-white print:shadow-none print:border-none " +
+          classes
         }
       >
         {renderTemplate()}
@@ -31,15 +33,14 @@ const ResumePreview = ({ data, template, accentColor, classes = "" }) => {
       <style jsx>
         {`
           @page {
-            size: letter;
+            size: A4;
             margin: 0;
           }
           @media print {
             html,
             body {
-              width: 8.5in;
-              height: 11in;
-              overflow: hidden;
+              margin: 0;
+              padding: 0;
             }
             body * {
               visibility: hidden;
