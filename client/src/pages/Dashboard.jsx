@@ -4,6 +4,7 @@ import api from '../configs/api';
 import toast from 'react-hot-toast'
 import {
   FilePenLineIcon,
+  LoaderCircle,
   PencilIcon,
   PlusIcon,
   TrashIcon,
@@ -37,7 +38,7 @@ const Dashboard = () => {
 
   const loadAllResumes = async () => {
     try {
-          const { data } = await api.get(
+      const { data } = await api.get(
         "/api/users/resumes",
         {
           headers: {
@@ -45,9 +46,9 @@ const Dashboard = () => {
           },
         }
       );
-        setAllResumes(data.resumes)
+      setAllResumes(data.resumes)
     } catch (error) {
-        toast.error(
+      toast.error(
         error?.response?.data?.message || error.message
       );
     }
@@ -109,19 +110,50 @@ const Dashboard = () => {
   };
 
 
-  // ── TODO: Baad mein yahan API call hogi
+  /* ----- Edit Resume ----- */
   const editTitle = async (event) => {
-    event.preventDefault();
+    try {
+       event.preventDefault();
+       const { data } = await api.put(
+          `/api/resumes/update`,{resumeId : editResumeId,resumeData:{title}},
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+        setAllResumes(allResumes.map(resume => resume._id === editResumeId ? {...resume , title} : resume))
+        setTitle('')
+        setEditResumeId('')
+        toast.success(data.message)
+
+    } catch (error) {
+        toast.error(error?.response?.data?.message || error.message)
+    }
   };
 
-
+  /* ----- Delete Resume ----- */
   const deleteResume = async (resumeId) => {
-    const confirm = window.confirm('Are you sure you want to delete this resume');
-
-    if (confirm) {
-      // Jo resume delete karna hai usse filter karke hata do, baaki raho
-      setAllResumes(prev => prev.filter(resumeItem => resumeItem._id !== resumeId));
+    try {
+      const confirm = window.confirm('Are you sure you want to delete this resume');
+      if (confirm) {
+        const { data } = await api.delete(
+          `/api/resumes/delete/${resumeId}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        );
+        setAllResumes(allResumes.filter(resume => resume._id !== resumeId));
+        toast.success(data.message)
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message)
     }
+
+
+
   };
 
 
@@ -292,8 +324,12 @@ const Dashboard = () => {
                   type="file" id='resume-input' accept='.pdf' hidden />
               </div>
 
-              <button className='w-full py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors'>
-                Upload Resume
+              <button 
+              disabled = {isLoading}
+              className='w-full py-2 bg-indigo-600
+               text-white rounded hover:bg-indigo-700 transition-colors flex justify-center items-center gap-2'>
+                {isLoading && <LoaderCircle className='animate-spin size-4 text-white' />}
+                {isLoading ? 'Uploading...' : ' Upload Resume'}
               </button>
               {/* X button — modal band karo aur title + file reset karo */}
               <XIcon
