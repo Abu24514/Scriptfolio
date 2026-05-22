@@ -3,7 +3,7 @@ import Resume from "../models/Resume.js";
 import fs from "fs"
 
 /** 1. controller for  creating a new resume
- * @POST : / api/resumes/create
+ * @POST : /api/resumes/create
  */
 export const createResume = async(req, res) => {
   try {
@@ -28,7 +28,7 @@ export const createResume = async(req, res) => {
 }
 
 /** 2. controller for  deleting resume
- * @DELETE : / api/resumes/delete
+ * @DELETE : /api/resumes/delete
  */
 
 export const deleteResume = async(req, res) => {
@@ -54,7 +54,7 @@ export const deleteResume = async(req, res) => {
 }
 
 /** 3. controller for  resume by id
- * @GET : / api/resumes/get
+ * @GET : /api/resumes/get
  */
 
 export const getResumeById = async(req, res) => {
@@ -86,7 +86,7 @@ export const getResumeById = async(req, res) => {
 }
 
 /** 4. controller for  resume by id public
- * @GET : / api/resumes/public
+ * @GET : /api/resumes/public
  */
 
 export const getPublicResumeById = async(req, res) => {
@@ -113,7 +113,7 @@ export const getPublicResumeById = async(req, res) => {
 }
 
 /** 5. controller for updating a resume
- * @PUT : / api/resumes/update
+ * @PUT : /api/resumes/update
  */
 
 export const updateResume =async (req, res) => {
@@ -121,25 +121,26 @@ export const updateResume =async (req, res) => {
     const userId = req.userId;
     const { resumeId, resumeData, removeBackground } = req.body;
     const image = req.file;
-
-    let resumeDataCopy = JSON.parse(resumeData);
+    //  console.log(req.body);
+    //  console.log("resumeData:", resumeData);
+    let resumeDataCopy = JSON.parse(JSON.stringify(resumeData));
 
     if (image) {
       const imageBufferData = fs.createReadStream(image.path)
-      const response = await imageKit.files.upload({
+      const response = await ImageKit.files.upload({
         file:imageBufferData,
         fileName: 'resume.png',
         folder :'user-resumes',
         transformation :{
-          prev : 'w-300 , h-300 , fo-face , z-0.75'+
+          pre: 'w-300,h-300,fo-face,z-0.75'+
           (removeBackground ? ',e-bgremove': '')
         }
       });
       resumeDataCopy.personal_info.image = response.url
     }
-    const resume = await Resume.findByIdAndUpdate({
+    const resume = await Resume.findOneAndUpdate({
       userId, _id: resumeId
-    }, resumeDataCopy, { new: true })
+    }, resumeDataCopy,  { returnDocument: "after" })
 
     return res.status(200).json({
       message: 'Saved successfully', resume

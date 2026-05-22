@@ -10,7 +10,7 @@ const generateToken = (userId) => {
   return token;
 };
 /** controller for user registration
- * @POST : / api/user/register
+ * @POST : /api/user/register
  */
 export const registerUser = async (req, res) => {
   try {
@@ -54,7 +54,7 @@ export const registerUser = async (req, res) => {
 };
 
 /** controller for user login
- * @POST : / api/user/login
+ * @POST : /api/user/login
  */
 export const loginUser = async (req, res) => {
   try {
@@ -93,7 +93,7 @@ export const loginUser = async (req, res) => {
 };
 
 /** controller for  getting user by id
- * @GET : / api/user/data
+ * @GET : /api/user/data
  */
 export const getUserById = async (req, res) => {
   try {
@@ -123,7 +123,7 @@ export const getUserById = async (req, res) => {
 };
 /* ====! controller for getting user resumes !==== */
 /** controller for  getting user by id
- * @GET : / api/user/resume
+ * @GET : /api/user/resumes
  */
 export const getUserResumes = async (req, res) => {
   try {
