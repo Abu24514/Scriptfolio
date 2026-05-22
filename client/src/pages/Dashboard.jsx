@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import api from '../configs/api';
+import toast from 'react-hot-toast'
 import {
   FilePenLineIcon,
   PencilIcon,
@@ -12,6 +15,7 @@ import { dummyResumeData } from '../assets/assets';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
+const {user, token} = useSelector(state =>state.auth);
 
   const colors = [
     "#3a9809", // green
@@ -36,18 +40,38 @@ const Dashboard = () => {
 
   const [editResumeId, setEditResumeId] = useState('');
 
-  // ── TODO: Baad mein yahan API call hogi — axios.get('/api/resumes')
   const loadAllResumes = async () => {
     setAllResumes(dummyResumeData);
   };
-
-  // ── TODO: Baad mein yahan API call hogi 
-  const createResume = async (event) => {
+/* ----- Create Resume ----- */
+const createResume = async (event) => {
+  try {
     event.preventDefault();
-    setShowCreateResume(false); //  Modal close  
-    setTitle(''); // title reset
-    navigate(`/app/builder/res123`); // move to builder page
-  };
+
+    const { data } = await api.post(
+      "/api/resumes/create",
+      { title },
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
+
+    setAllResumes([...allResumes, data.resume]);
+
+    setTitle(""); // reset title
+
+    setShowCreateResume(false); // close modal
+
+    navigate(`/app/builder/${data.resume._id}`);
+  } catch (error) {
+    // console.log(error.response?.data);
+    toast.error(
+      error?.response?.data?.message || error.message
+    );
+  }
+};
 
 
   // ── TODO: Baad mein yahan API call hogi 
