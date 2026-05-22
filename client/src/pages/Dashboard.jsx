@@ -13,9 +13,11 @@ import {
 } from 'lucide-react';
 import { dummyResumeData } from '../assets/assets';
 import { useNavigate } from 'react-router-dom';
-
+import pdfToText from 'react-pdftotext'
 const Dashboard = () => {
-const {user, token} = useSelector(state =>state.auth);
+
+  const navigate = useNavigate();
+  const { user, token } = useSelector(state => state.auth);
 
   const colors = [
     "#3a9809", // green
@@ -24,63 +26,86 @@ const {user, token} = useSelector(state =>state.auth);
     "#0284c7", // blue
     "#16a34a"  // dark green
   ];
-
-
-  const navigate = useNavigate();
-
   const [allResumes, setAllResumes] = useState([]);
-
   const [showCreateResume, setShowCreateResume] = useState(false);
-
   const [showUploadResume, setShowUploadResume] = useState(false);
-
   const [title, setTitle] = useState('');
-// FIX: 'resume' se rename kiya — map wale 'resumeItem' se conflict tha
-  const [uploadedFile, setUploadedFile] = useState(null); 
-
+  // FIX: 'resume' se rename kiya — map wale 'resumeItem' se conflict tha
+  const [uploadedFile, setUploadedFile] = useState(null);
   const [editResumeId, setEditResumeId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const loadAllResumes = async () => {
-    setAllResumes(dummyResumeData);
+    try {
+          const { data } = await api.get(
+        "/api/users/resumes",
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+        setAllResumes(data.resumes)
+    } catch (error) {
+        toast.error(
+        error?.response?.data?.message || error.message
+      );
+    }
   };
-/* ----- Create Resume ----- */
-const createResume = async (event) => {
-  try {
-    event.preventDefault();
 
-    const { data } = await api.post(
-      "/api/resumes/create",
-      { title },
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
+  /* ----- Create Resume ----- */
+  const createResume = async (event) => {
+    try {
+      event.preventDefault();
 
-    setAllResumes([...allResumes, data.resume]);
+      const { data } = await api.post(
+        "/api/resumes/create",
+        { title },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
 
-    setTitle(""); // reset title
+      setAllResumes([...allResumes, data.resume]);
 
-    setShowCreateResume(false); // close modal
+      setTitle(""); // reset title
 
-    navigate(`/app/builder/${data.resume._id}`);
-  } catch (error) {
-    // console.log(error.response?.data);
-    toast.error(
-      error?.response?.data?.message || error.message
-    );
-  }
-};
+      setShowCreateResume(false); // close modal
 
+      navigate(`/app/builder/${data.resume._id}`);
+    } catch (error) {
+      // console.log(error.response?.data);
+      toast.error(
+        error?.response?.data?.message || error.message
+      );
+    }
+  };
 
-  // ── TODO: Baad mein yahan API call hogi 
+  /* ----- Upload Resume ----- */
   const uploadResume = async (event) => {
     event.preventDefault();
-    setShowUploadResume(false); //  Modal close  
-    setTitle('');       // title reset 
-    setUploadedFile(null); // file  reset 
-    navigate(`/app/builder/res123`); // // move to builder page
+    setIsLoading(true)
+    try {
+      const resumeText = await pdfToText(uploadedFile);
+      const { data } = await api.post(
+        "/api/ai/upload-resume",
+        { title, resumeText },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      setTitle('');
+      setUploadedFile(null);
+      setShowUploadResume(false); //  Modal close 
+      navigate(`/app/builder/${data.resumeId}`)
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message)
+    }
+    setIsLoading(false)
   };
 
 
@@ -109,7 +134,7 @@ const createResume = async (event) => {
     <div className='px-5'>
       <div className='max-w-7xl mx-auto px-6 py-8'>
 
-{/* heading  */}
+        {/* heading  */}
         <p className='text-2xl font-medium mb-6 bg-linear-to-r from-slate-600 to-slate-700 bg-clip-text text-transparent sm:hidden'>
           Welcome, Alex John
         </p>
@@ -138,7 +163,7 @@ const createResume = async (event) => {
 
         {/* ── Resume Cards Grid ── */}
         <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
-          {allResumes.map((resumeItem) => { 
+          {allResumes.map((resumeItem) => {
 
             const baseColor = colors[allResumes.indexOf(resumeItem) % colors.length];
 
@@ -146,7 +171,7 @@ const createResume = async (event) => {
               // Card click hone par us resume ke builder page par jaao
               <button
                 onClick={() => navigate(`/app/builder/${resumeItem._id}`)}
-                key={resumeItem._id} 
+                key={resumeItem._id}
                 className='relative w-full h-48 flex flex-col items-center justify-center rounded-lg gap-2 border group hover:shadow-lg transition-all duration-300'
                 style={{
                   // Card ka background color dynamically set ho raha hai
@@ -178,7 +203,7 @@ const createResume = async (event) => {
                   onClick={e => e.stopPropagation()}
                   className='hidden group-hover:flex items-center'>
 
-              
+
                   <TrashIcon
                     onClick={() => deleteResume(resumeItem._id)}
                     className='absolute top-2 right-2 size-6 p-1 hover:bg-white/70 rounded' />
@@ -233,7 +258,7 @@ const createResume = async (event) => {
         {showUploadResume && (
           <form
             onSubmit={uploadResume}
-            onClick={() => { setShowUploadResume(false); setTitle(''); setUploadedFile(null); }} 
+            onClick={() => { setShowUploadResume(false); setTitle(''); setUploadedFile(null); }}
             className='fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center'>
 
             <div onClick={(e) => e.stopPropagation()} className='relative bg-slate-50 border shadow-md rounded-lg w-full max-w-sm p-6'>
@@ -286,7 +311,7 @@ const createResume = async (event) => {
         {editResumeId && (
           <form
             onSubmit={editTitle}
-            onClick={() => { setEditResumeId(''); setTitle(''); }} 
+            onClick={() => { setEditResumeId(''); setTitle(''); }}
             className='fixed inset-0 bg-black/70 backdrop-blur bg-opacity-50 z-10 flex items-center justify-center'>
 
             <div onClick={(e) => e.stopPropagation()} className='relative bg-slate-50 border shadow-md rounded-lg w-full max-w-sm p-6'>
