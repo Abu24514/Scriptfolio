@@ -1,11 +1,16 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/scriptfolio-logo.svg'
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../redux/features/authSlice';
 const Nav = () => {
-    const user = { name: " Alex John" }
+    // const user = { name: " Alex John" }
+    const dispatch = useDispatch();
+    const {user} = useSelector(state =>state.auth)
     const navigate = useNavigate();
     const LogoutUser = () => {
         navigate('/')
+        dispatch(logout())
     }
     return (
         <div className='shadow bg-white'>

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+    const {user} = useSelector(state =>state.auth)
     const [menuOpen, setMenuOpen] = useState(false);
 
     return (
@@ -31,14 +33,19 @@ const Navbar = () => {
                     <Link
                        to="/signup"
                         className="px-5 py-2 bg-indigo-500 hover:bg-indigo-700 text-white rounded-full text-sm transition-colors"
+                        hidden={user}
                     >
                         Get Started
                     </Link>
                     <Link
                         to="/login"
                         className="px-5 py-2 border rounded-full text-sm hover:bg-gray-100 transition-colors"
+                        hidden={user}
                     >
                         Login
+                    </Link>
+                    <Link to='/app' className="hidden md:block px-8 py-2 border rounded-2xl active:scale-95 bg-indigo-500  hover:bg-indigo-700 transition-all text-white" hidden={!user}>
+                    Dashboard
                     </Link>
                 </div>
 
@@ -76,6 +83,7 @@ const Navbar = () => {
                             to="/app?state=register"
                             onClick={() => setMenuOpen(false)}
                             className="px-6 py-2 bg-indigo-500 hover:bg-indigo-700 rounded-full transition-colors"
+                            hidden={user}
                         >
                             Get Started
                         </Link>
@@ -84,6 +92,7 @@ const Navbar = () => {
                             to="/app?state=login"
                             onClick={() => setMenuOpen(false)}
                             className="px-6 py-2 border rounded-full hover:bg-white/10 transition-colors"
+                            hidden={user}
                         >
                             Login
                         </Link>

@@ -1,10 +1,14 @@
 import React from "react";
 import { Mail, Lock, User } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import api from "../configs/api";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/features/authSlice";
+import toast from "react-hot-toast"
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const isLogin = location.pathname === "/login";
 
@@ -14,10 +18,24 @@ const Login = () => {
     password: "",
   });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(formData);
-  };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const endpoint = isLogin ? "/api/users/login" : "/api/users/register";
+
+    const { data } = await api.post(endpoint, formData);
+    console.log(data);
+    dispatch(login(data));
+    localStorage.setItem('token' , data.token)
+    toast.success(data.message)
+    // redirect
+    navigate("/app");
+  } catch (error) {
+    console.log(error);
+    toast(error?.response?.data?.message ||error.message )
+  }
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
