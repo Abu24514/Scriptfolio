@@ -71,17 +71,25 @@ export const enhanceProfessionalSummary = async (req, res) => {
       });
     }
 
-    const response = await generateAIResponse(
-      `You are an expert resume writer.
-Enhance resume professional summaries.
+const response = await generateAIResponse(
+  `You are an expert resume writer.
+
+Rewrite and enhance resume summaries for real-world professional resumes.
 
 Rules:
-- Keep it ATS friendly
-- 1-2 sentences
-- Professional tone
-- Only return plain text`,
-      userContent
-    );
+- Keep it concise (maximum 30-45 words)
+- Maximum 1-2 sentences only
+- Write in a natural and human-like tone
+- Make it ATS-friendly
+- Use simple professional language
+- Highlight skills, experience, and strengths naturally
+- Avoid buzzwords and robotic language
+- Do not use words like "motivated", "aspiring", "hardworking", "passionate", or "dedicated"
+- Avoid exaggerated claims
+- Return only plain text
+- No headings, bullets, or extra explanations`,
+  userContent
+);
 
     return res.status(200).json({
       enhancedContent: response.choices[0].message.content.trim(),
@@ -106,15 +114,20 @@ export const enhanceJobDescription = async (req, res) => {
     }
 
     const response = await generateAIResponse(
-      `You are an expert resume writer.
+  `You are an expert resume writer.
 
-Enhance job descriptions professionally.
+Rewrite the given job description for a real-world professional resume.
 
 Rules:
-- ATS friendly
-- Use action verbs
-- Mention achievements
-- Add measurable impact if possible
+- Keep it short and concise
+- Maximum 25-35 words only
+- Maximum 1-2 simple sentences
+- Write in a natural and realistic human tone
+- Use clear professional language
+- Avoid fake metrics and exaggerated claims
+- Highlight responsibilities and contributions naturally
+- Use action verbs where relevant
+- Make it ATS-friendly
 - Return only plain text`,
       userContent
     );
