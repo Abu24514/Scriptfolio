@@ -18,24 +18,30 @@ const Login = () => {
     password: "",
   });
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    const endpoint = isLogin ? "/api/users/login" : "/api/users/register";
+    try {
+      const endpoint = isLogin ? "/api/users/login" : "/api/users/register";
 
-    const { data } = await api.post(endpoint, formData);
-    console.log(data);
-    dispatch(login(data));
-    localStorage.setItem('token' , data.token)
-    toast.success(data.message)
-    // redirect
-    navigate("/app");
-  } catch (error) {
-    console.log(error);
-    toast(error?.response?.data?.message ||error.message )
-  }
-};
+      const { data } = await api.post(endpoint, formData);
+      // console.log(data);
+      if (isLogin) {
+        dispatch(login(data));
+        localStorage.setItem('token', data.token)
+        toast.success(data.message);
+        // redirect
+        navigate("/app");
+      } else {
+        navigate("/login");
+      }
+
+
+    } catch (error) {
+      console.log(error);
+      toast(error?.response?.data?.message || error.message)
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
