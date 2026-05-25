@@ -12,7 +12,6 @@ import {
   UploadCloudIcon,
   XIcon
 } from 'lucide-react';
-import { dummyResumeData } from '../assets/assets';
 import { useNavigate } from 'react-router-dom';
 import pdfToText from 'react-pdftotext'
 const Dashboard = () => {
@@ -151,9 +150,6 @@ const Dashboard = () => {
     } catch (error) {
       toast.error(error?.response?.data?.message || error.message)
     }
-
-
-
   };
 
 
@@ -168,7 +164,7 @@ const Dashboard = () => {
 
         {/* heading  */}
         <p className='text-2xl font-medium mb-6 bg-linear-to-r from-slate-600 to-slate-700 bg-clip-text text-transparent sm:hidden'>
-          Welcome, Alex John
+          Welcome, {user?.name}
         </p>
 
         {/* ── Do action buttons:  createResume  or uploadResume  ── */}

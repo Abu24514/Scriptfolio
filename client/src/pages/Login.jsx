@@ -112,16 +112,6 @@ const Login = () => {
             required
           />
         </div>
-
-        {/* Forgot Password */}
-        {isLogin && (
-          <div className="mt-4 text-left text-indigo-500">
-            <button type="button" className="text-sm">
-              Forgot password?
-            </button>
-          </div>
-        )}
-
         {/* Submit */}
         <button
           type="submit"
