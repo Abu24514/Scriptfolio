@@ -14,7 +14,12 @@ await connectDB();
 
 // middleware
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://resume-builder-frontend-beta-gray.vercel.app/",
+    credentials: true,
+  })
+);
 
 app.use("/api/users", userRouter);
 app.use ("/api/resumes" , resumeRouter);
