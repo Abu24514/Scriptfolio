@@ -16,7 +16,7 @@ await connectDB();
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://resume-builder-frontend-beta-gray.vercel.app/",
+    origin: "https://resume-builder-frontend-5etk.vercel.app/",
     credentials: true,
   })
 );
